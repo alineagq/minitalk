@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 15:43:01 by aqueiroz          #+#    #+#             */
-/*   Updated: 2023/05/28 01:03:21 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/05/28 01:24:13 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_digit(char *str_pid)
 	return (0);
 }
 
-void error(char *msg)
+void	error(char *msg)
 {
 	ft_printf("%s\n", msg);
 	exit(0);
