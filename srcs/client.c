@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 15:43:01 by aqueiroz          #+#    #+#             */
-/*   Updated: 2023/05/28 01:24:13 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/05/28 03:13:39 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	received(int sigusr, siginfo_t *info, void *context)
 {
 	if (sigusr == SIGUSR1)
 		g_bit = 0;
+	else if (sigusr == SIGUSR2)
+		ft_printf("String sent!");
 	(void)info;
 	(void)context;
 }
