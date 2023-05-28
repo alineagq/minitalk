@@ -6,7 +6,7 @@
 #    By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 19:39:40 by aqueiroz          #+#    #+#              #
-#    Updated: 2023/04/15 15:09:49 by aqueiroz         ###   ########.fr        #
+#    Updated: 2023/05/28 04:21:23 by aqueiroz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ color-test:
 	$(info $(cyan)Message$(reset))
 	$(info $(white)Message$(reset))
 
+# MANDATORY FILES
+
 NAME = minitalk
 CLIENT = client
 SERVER = server
@@ -48,7 +50,25 @@ CLIENT_FILES = client
 SERVER_SRCS = $(addprefix $(SRC_PATH)/, $(addsuffix .c, $(SERVER_FILES)))
 CLIENT_SRCS = $(addprefix $(SRC_PATH)/, $(addsuffix .c, $(CLIENT_FILES)))
 
-OBJS = $(addsuffix .o, $(FILES))
+SERVER_OBJS = $(SERVER_SRCS:.c=.o)
+CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
+
+# BONUS FILES
+
+CLIENT_BONUS = client_bonus
+SERVER_BONUS = server_bonus
+
+BONUS_PATH = bonus
+
+SERVER_FILES_BONUS = server_bonus
+CLIENT_FILES_BONUS = client_bonus
+
+SERVER_SRCS_BONUS = $(addprefix $(BONUS_PATH)/, $(addsuffix .c, $(SERVER_FILES_BONUS)))
+CLIENT_SRCS_BONUS = $(addprefix $(BONUS_PATH)/, $(addsuffix .c, $(CLIENT_FILES_BONUS)))
+
+SERVER_OBJS_BONUS = $(SERVER_SRCS_BONUS:.c=.o)
+CLIENT_OBJS_BONUS = $(CLIENT_SRCS_BONUS:.c=.o)
+
 
 # FLAGS
 
@@ -64,26 +84,36 @@ LIBFT:
 
 $(NAME): LIBFT $(SERVER) $(CLIENT)
 
-$(SERVER):
-	@$(CC) $(SERVER_SRCS) $(INCLUDE) $(LIBFLAGS) -o $@
+$(SERVER): $(SERVER_OBJS)
+	@$(CC) $< $(INCLUDE) $(LIBFLAGS) -o $@
 	$(info $(purple)Server created. Run './server' to start.$(reset))
 
-$(CLIENT):
-	@$(CC) $(CLIENT_SRCS) $(INCLUDE) $(LIBFLAGS) -o $@
+$(CLIENT): $(CLIENT_OBJS)
+	@$(CC) $< $(INCLUDE) $(LIBFLAGS) -o $@
+	$(info $(purple)Client created. Run './client {PID} {MESSAGE}' to start.$(reset))
+
+bonus: LIBFT $(SERVER_BONUS) $(CLIENT_BONUS)
+
+$(SERVER_BONUS): $(SERVER_OBJS_BONUS)
+	@$(CC) $< $(INCLUDE) $(LIBFLAGS) -o $@
+	$(info $(purple)Server created. Run './server' to start.$(reset))
+
+$(CLIENT_BONUS): $(CLIENT_OBJS_BONUS)
+	@$(CC) $< $(INCLUDE) $(LIBFLAGS) -o $@
 	$(info $(purple)Client created. Run './client {PID} {MESSAGE}' to start.$(reset))
 
 valgrind:
-	valgrind --track-origins=yes --error-exitcode=42 --leak-check=full --show-leak-kinds=all --quiet ./$(NAME) maps/42.fdf
+	valgrind --track-origins=yes --error-exitcode=42 --leak-check=full --show-leak-kinds=all --quiet ./server
 
 clean:
-	@rm -dfr ./objs
+	@rm -f $(SERVER_OBJS) $(CLIENT_OBJS) $(SERVER_OBJS_BONUS) $(CLIENT_OBJS_BONUS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent clean
 	$(info $(yellow)All libs files were removed.$(reset))
 
 fclean: clean
-	@rm -f $(SERVER) $(CLIENT)
+	@rm -f $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent fclean
-	$(info $(yellow)Fdf file was removed.$(reset))
+	$(info $(yellow)Executables files were removed.$(reset))
 
 re: fclean all
 	
