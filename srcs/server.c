@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 15:43:35 by aqueiroz          #+#    #+#             */
-/*   Updated: 2023/05/28 01:03:38 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/05/28 03:07:01 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ void	print_char(int signal, siginfo_t *siginfo, void *context)
 		}
 		g_char = 0;
 		i = 0;
-		kill(siginfo->si_pid, SIGUSR1);
-		kill(siginfo->si_pid, SIGUSR2);
-		return ;
 	}
-	i++;
+	else
+		i++;
 	kill(siginfo->si_pid, SIGUSR1);
 }
 
